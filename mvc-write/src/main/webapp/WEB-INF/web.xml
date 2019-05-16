@@ -6,7 +6,7 @@
     <display-name>my spring application</display-name>
     <servlet>
         <servlet-name>myMVC</servlet-name>
-        <servlet-class>com.mvc.servlet.v1.CobraDispatcherServlet</servlet-class>
+        <servlet-class>com.mvc.servlet.v2.CobraDispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>cobraApplication.properties</param-value>

@@ -1,11 +1,10 @@
-package com.mvc.servlet.v1;
-
-
+package com.mvc.servlet.v2;
 
 import com.mvc.annotion.CobraAutowired;
 import com.mvc.annotion.CobraController;
 import com.mvc.annotion.CobraRequestMapping;
 import com.mvc.annotion.CobraService;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,10 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 1、配置web.ml
@@ -32,7 +34,8 @@ public class CobraDispatcherServlet extends HttpServlet
     private Map<String,Object> ioc = new HashMap<String, Object>();// ioc容器
 
     //
-    private Map<String,Method> handlerMapping = new HashMap<String, Method>();
+   // private Map<String,Method> handlerMapping = new HashMap<String, Method>();
+    private List<Handler> handlerMapping = new ArrayList<Handler>();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
@@ -97,16 +100,16 @@ public class CobraDispatcherServlet extends HttpServlet
                 baseUrl = requestMapping.value();
             }
             // 获取的是public方法上的url配置
-           Method[] methods = clazz.getMethods();
+            Method[] methods = clazz.getMethods();
             for (Method method:methods){
                 // 没有添加requestMapping注解的自动忽略
                 if(!method.isAnnotationPresent(CobraRequestMapping.class)){continue;}
 
                 CobraRequestMapping requestMapping =  method.getAnnotation(CobraRequestMapping.class);
-
                 // / + /demo + / + /query
                 String url = ("/"+baseUrl+"/"+requestMapping.value()).replaceAll("/+","/");// 多个/替换
-                handlerMapping.put(url,method);
+                Pattern pattern = Pattern.compile(url);
+                handlerMapping.add(new Handler(pattern,entry.getValue(),method));
 
                 System.out.println("Mapped "+url+","+method);
 
@@ -118,7 +121,6 @@ public class CobraDispatcherServlet extends HttpServlet
     }
 
     /**
-     * 从容器中查找依赖 然后在注入 不能重复 重复会报错
      * 依赖注入
      */
     private void doAutowired()
@@ -135,7 +137,7 @@ public class CobraDispatcherServlet extends HttpServlet
                 CobraAutowired autowired = field.getAnnotation(CobraAutowired.class);
                 String beanName = autowired.value();// @CobraAutowired("bbb)中的bbb
                 if("".equals(beanName.trim())){
-                    beanName = field.getType().getName();// 为空 默认首字母小写
+                    beanName = field.getType().getName();
                 }
                 // private也能被外界访问
                 field.setAccessible(true);// 设置私有属性发访问权限
@@ -279,29 +281,120 @@ public class CobraDispatcherServlet extends HttpServlet
      * @param response
      */
     private void doDispatcher(HttpServletRequest request,HttpServletResponse response)throws Exception
-
     {
+        Handler handler = getHandler(request);
+        if(null == handler){
+            response.getWriter().println("404 Not Found");
+        }
+
+        // 获取方法的 参数列表
+        Class<?>[] paramTypes = handler.method.getParameterTypes();
+
+        // 保存所有需要自动赋值的参数值
+        Object[] paramValues = new Object[paramTypes.length];
+        Map<String,String[]> params = request.getParameterMap();
+        for (Map.Entry<String,String[]> entry:params.entrySet()){
+            String value = Arrays.toString(entry.getValue()).replaceAll("\\[|\\]","");
+            // 如果找到匹配的对象 就开始填充参数值
+            if(!handler.paramIndexMap.containsKey(entry.getKey())){continue;}
+            int index = handler.paramIndexMap.get(entry.getKey());
+            paramValues[index] = convert(paramTypes[index],value);
+        }
+
+        // 设置方法中的request和response对象
+        int reqIndex = handler.paramIndexMap.get(HttpServletRequest.class.getName());
+        paramValues[reqIndex] = request;
+        int respIndex = handler.paramIndexMap.get(HttpServletResponse.class.getName());
+        paramValues[respIndex] = response;
+
+        // 激活
+        handler.method.invoke(handler.controller,paramValues);
+
+
+    }
+
+    /**
+     * 类型转换啊
+     * @param type
+     * @param value
+     * @return
+     */
+    private Object convert(Class<?> type,String value){
+        if(type == Integer.class){
+            return Integer.valueOf(value);
+        }
+        return value;
+    }
+
+    private Handler getHandler(HttpServletRequest request) throws Exception
+    {
+        if(handlerMapping.isEmpty()){return null;}
+
         String url = request.getRequestURI();
         String contextPath = request.getContextPath();
-        url = url.replaceAll(contextPath,"").replaceAll("/+","/");
+        url = url.replace(contextPath,"").replaceAll("/+","/");
+        for (Handler handler:handlerMapping){
+            try
+            {
+                Matcher matcher = handler.pattern.matcher(url);
+                if(!matcher.matches()){continue;}
+                return handler;
+            }catch (Exception e){
+                e.printStackTrace();
+                throw e;
+            }
 
 
-        if(!handlerMapping.containsKey(url)){
-            response.getWriter().println("404 Not Found");
-            return;
         }
-        Method method = handlerMapping.get(url);
 
-        // 第一个参数 方法所在的实例
-        // 第二个参数 调用时所需要的实参
-        Map<String,String[]> params = request.getParameterMap();
+        return null;
 
-        // 投机方式 spring不是这样写
-        String beanName = toLowerFirstClass(method.getDeclaringClass().getSimpleName());
 
-        // requestMapping 传递的是name 这里可能做类型转换
-        method.invoke(ioc.get(beanName),new Object[]{request,response,params.get("name")[0]});
+    }
 
+    private class Handler{
+        protected Object controller;// 保存方法对应的实例
+        protected Method method;// 保存映射的方法
+        protected Pattern pattern;// 正则保证url的规则
+        protected Map<String,Integer> paramIndexMap;// 参数的顺序(形参列表)
+
+        protected Handler(Pattern pattern,Object controller,Method method){
+            this.pattern = pattern;
+            this.controller = controller;
+            this.method = method;
+            paramIndexMap = new HashMap<String,Integer>();
+            putParamIndexMap(method);
+        }
+
+        private void putParamIndexMap(Method method)
+        {
+            Annotation[][] pa = method.getParameterAnnotations();
+            for (int i = 0;i<pa.length;i++){
+                for (Annotation a:pa[i]){
+                    if(a instanceof CobraRequestMapping){
+                        String paramName = ((CobraRequestMapping)a).value();
+                        if(!"".equals(paramName.trim())){
+                            paramIndexMap.put(paramName,i);
+                        }
+
+                    }
+
+                }
+            }
+
+            // 提取方法中的request和response 参数
+            Class<?>[] paramTypes= method.getParameterTypes();
+            for (int i = 0;i<paramTypes.length;i++){
+                Class<?> type = paramTypes[i];
+                if(type == HttpServletRequest.class || type == HttpServletResponse.class){
+                    paramIndexMap.put(type.getName(),i);
+                }
+            }
+
+
+
+
+        }
     }
 
 
