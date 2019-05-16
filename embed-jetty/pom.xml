@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>embed</artifactId>
+        <groupId>com.opuntia</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>embed-jetty</artifactId>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.0.9.RELEASE</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- jetty6插件 -->
+            <!--<plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.25</version>
+                <configuration>&lt;!&ndash;配置说明&ndash;&gt;
+                    <connectors>
+                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                            <port>8000</port>&lt;!&ndash; 监听端口 默认8080&ndash;&gt;
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                    <contextPath>/accessPath</contextPath>&lt;!&ndash; web应用上下文 默认pom文件中的名称&ndash;&gt;
+                    <scanIntervalSeconds>0</scanIntervalSeconds>&lt;!&ndash; 禁止热部署&ndash;&gt;
+                    <contentHandlers>
+                        <contentHandler>
+                            <resourceBase>${project.parent.basedir}/src/main/webapp</resourceBase>
+                            <contextPath>/web</contextPath>
+                        </contentHandler>
+
+                    </contentHandlers>
+                </configuration>
+            </plugin>-->
+
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.1.15.v20140411</version><!-- jetty8的上下文配置不一样 -->
+                <configuration>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <webApp>
+                        <contextPath>/jsp</contextPath>
+                     </webApp>
+                    <webAppConfig><!-- 这是8一下 -->
+                        <contextPath>/jsp</contextPath>
+                    </webAppConfig>
+                    <connectors>
+                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                            <port>8089</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+</project>
