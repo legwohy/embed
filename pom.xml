@@ -13,6 +13,7 @@
         <module>embed-jetty</module>
         <module>embed-tomcat</module>
         <module>mvc-auto</module>
+        <module>mvc-write</module>
     </modules>
 
 
