@@ -12,8 +12,10 @@
         <module>no-tomcat</module>
         <module>embed-jetty</module>
         <module>embed-tomcat</module>
-        <module>mvc-auto</module>
         <module>mvc-write</module>
+        <module>tomcat-write</module>
+        <module>mvc-annotation</module>
+        <module>mvc-sci</module>
     </modules>
 
 
