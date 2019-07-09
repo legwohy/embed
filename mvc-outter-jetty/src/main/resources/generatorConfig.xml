@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- <properties resource="db.properties" /> -->
+    <context id="context1" targetRuntime="MyBatis3">
+
+        <!--<plugin type="tk.mybatis.mapper.generator.MapperPlugin">-->
+
+            <!--&lt;!&ndash;https://mapperhelper.github.io/docs/3.usembg/，自动生成代码的通用mapper插件&ndash;&gt;-->
+            <!--<property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>-->
+            <!--&lt;!&ndash; caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true &ndash;&gt;-->
+            <!--&lt;!&ndash; <property name="caseSensitive" value="true"/>&ndash;&gt;-->
+        <!--</plugin>-->
+        <!-- 注释 -->
+        <plugin type="com.tycredit.common.mybatis.generator.IgnoreSetterAndGetterPlugin" />
+        <commentGenerator type="com.tycredit.common.mybatis.generator.CreditCommonGenerator">
+            <!-- 是否取消自动生成的注释 -->
+            <property name="suppressAllComments" value="true"/>
+            <!-- 是否生成注释代时间戳-->
+            <!-- <property name="suppressDate" value="true" />-->
+        </commentGenerator>
+
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://172.17.42.222:3306/data_market?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"
+                        userId="cis_credit"
+                        password="Xu9@SLsc2cJxK%Z^">
+            <!-- 针对mysql数据库 -->
+            <property name="useInformationSchema" value="true"/>
+        </jdbcConnection>
+
+        <!-- 类型转换 -->
+        <javaTypeResolver >
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+
+        <!-- 生成实体类地址 -->
+        <javaModelGenerator targetPackage="com.tycredit.open.platform.service.domain.datamarket" targetProject="src/main/java">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <!--<property name="enableSubPackages" value="true" />-->
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <!--<property name="trimStrings" value="true" />-->
+            <!-- 给Model添加一个父类 -->
+            <!--<property name="rootClass" valBaseDOseDO"/>-->
+        </javaModelGenerator>
+
+        <!-- 生成mapxml文件 -->
+        <sqlMapGenerator targetPackage="mapperdatamarket"  targetProject="src/main/resources">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <!-- <property name="enableSubPackages" value="true" />-->
+        </sqlMapGenerator>
+
+        <!-- 生成mapxml对应client，也就是接口dao -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.tycredit.open.platform.service.dao.datamarket" targetProject="src/main/java">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <!--<property name="enableSubPackages" value="true" />-->
+        </javaClientGenerator>
+
+        <table schema="" tableName="t_goods_conf_keyword"
+            domainObjectName="TGoodsConfKeywordDO"
+            mapperName="TGoodsConfKeywordMapper"
+            enableCountByExample="false"
+            enableUpdateByExample="false" enableDeleteByExample="false"
+            enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+    </context>
+</generatorConfiguration>

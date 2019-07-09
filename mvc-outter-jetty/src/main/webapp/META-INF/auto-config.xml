@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<config>
+    <group name="default">
+        <property name="log.level" defaultValue="INFO" description=""/>
+        <property name="log.logpath" defaultValue="/data/appsLogs/credit-open-service" description=""/>
+        <property name="log.outsideLevel" defaultValue="WARN" description=""/>
+        <property name="spring.datasource.druid.driver-class-name" defaultValue="" description=""/>
+        <property name="spring.datasource.druid.url" defaultValue="" description=""/>
+        <property name="spring.datasource.druid.username" defaultValue="" description=""/>
+        <property name="spring.datasource.druid.password" defaultValue="" description=""/>
+        <property name="spring.datasource.druid.initial-size" defaultValue="5" description=""/>
+        <property name="spring.datasource.druid.min-idle" defaultValue="5" description=""/>
+        <property name="spring.datasource.druid.max-active" defaultValue="10" description=""/>
+        <property name="spring.datasource.druid.max-wait" defaultValue="3000" description=""/>
+        <property name="spring.datasource.druid.filter.stat.slow-sql-millis" defaultValue="1000" description=""/>
+        <property name="spring.datasource.druid.stat-view-servlet.login-password" defaultValue="druid" description=""/>
+        <property name="spring.datasource.druid.stat-view-servlet.login-username" defaultValue="druid" description=""/>
+        <property name="mybatis.configuration.default-statement-timeout" defaultValue="3" description=""/>
+        <property name="spring.datasource.data.market.driver-class-name" defaultValue="" description=""/>
+        <property name="spring.datasource.data.market.url" defaultValue="" description=""/>
+        <property name="spring.datasource.data.market.username" defaultValue="" description=""/>
+        <property name="spring.datasource.data.market.password" defaultValue="" description=""/>
+
+    </group>
+    <script>
+        <generate template="WEB-INF/classes/logback.xml" charset="UTF-8"/>
+        <generate template="WEB-INF/classes/application.properties" charset="UTF-8"/>
+    </script>
+</config>

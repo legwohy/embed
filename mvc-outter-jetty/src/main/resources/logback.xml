@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <conversionRule conversionWord="msg" converterClass="com.cobra.util.log.FilterLogSensitive"></conversionRule>
+    <appender name="OpenServiceLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.logpath}/credit-open-service.log</file>
+        <encoder>
+            <pattern>[%date][%level][%logger %line][%thread]traceLogid:[%X{traceLogid}]dstTraceId:[%X{logMdc.TRACE_LOG_ID}] call [%logger{0}][%method] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${log.logpath}/credit-open-service.log.%d{yyyy-MM-dd_HH}</fileNamePattern>
+            <!-- 日志最大保留天数 -->
+            <!--<maxHistory>180</maxHistory>-->
+          <!--  <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>512MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>-->
+        </rollingPolicy>
+    </appender>
+
+    <!-- 外部jar包 日志级别设置 -->
+    <logger level="${log.outsideLevel}" name="com.ibatis" />
+    <logger level="${log.outsideLevel}" name="org.mybatis" />
+    <logger level="${log.outsideLevel}" name="org.springframework"/>
+    <logger level="${log.outsideLevel}" name="java.sql"/>
+    <logger level="${log.outsideLevel}" name="org.apache"/>
+    <logger level="${log.outsideLevel}" name="com.alibaba"/>
+    <logger level="${log.outsideLevel}" name="org.I0Itec"/>
+    <logger level="${log.outsideLevel}" name="org.dozer"/>
+    <logger level="${log.outsideLevel}" name="org.jdbcdslog"/>
+    <logger level="${log.outsideLevel}" name="org.hibernate"/>
+    <logger level="${log.outsideLevel}" name="com.bestpay.kafka"/>
+
+    <!-- Strictly speaking, the level attribute is not necessary since -->
+    <!-- the level of the root level is set to DEBUG by default.       -->
+    <root level="${log.level}">
+        <appender-ref ref="OpenServiceLogFile"/>
+    </root>
+
+</configuration>

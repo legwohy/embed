@@ -16,7 +16,32 @@
         <module>tomcat-write</module>
         <module>mvc-annotation</module>
         <module>mvc-sci</module>
+        <module>mvc-outter-jetty</module>
     </modules>
+
+    <!--特供 mvc-outter-jetty 临时使用 无需配置web.xml-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.18.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <build>
+        <plugins>
+            <!-- 防止每次编译都变回1.5版本-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
 
 
 </project>

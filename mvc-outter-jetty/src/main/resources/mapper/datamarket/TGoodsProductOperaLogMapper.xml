@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobra.dao.datamarket.TGoodsProductOperaLogMapper" >
+  <resultMap id="BaseResultMap" type="com.cobra.domain.datamarket.TGoodsProductOperaLogDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="log_id" property="logId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="operator_object" property="operatorObject" jdbcType="VARCHAR" />
+    <result column="operator_type" property="operatorType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, created_by, created_at, updated_by, updated_at, log_id, product_id, operator_object, 
+    operator_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_goods_product_opera_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_goods_product_opera_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cobra.domain.datamarket.TGoodsProductOperaLogDO" >
+    insert into t_goods_product_opera_log (id, created_by, created_at, 
+      updated_by, updated_at, log_id, 
+      product_id, operator_object, operator_type
+      )
+    values (#{id,jdbcType=BIGINT}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{logId,jdbcType=VARCHAR}, 
+      #{productId,jdbcType=VARCHAR}, #{operatorObject,jdbcType=VARCHAR}, #{operatorType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cobra.domain.datamarket.TGoodsProductOperaLogDO" >
+    insert into t_goods_product_opera_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+      <if test="logId != null" >
+        log_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="operatorObject != null" >
+        operator_object,
+      </if>
+      <if test="operatorType != null" >
+        operator_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logId != null" >
+        #{logId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorObject != null" >
+        #{operatorObject,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorType != null" >
+        #{operatorType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cobra.domain.datamarket.TGoodsProductOperaLogDO" >
+    update t_goods_product_opera_log
+    <set >
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null" >
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logId != null" >
+        log_id = #{logId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorObject != null" >
+        operator_object = #{operatorObject,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorType != null" >
+        operator_type = #{operatorType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cobra.domain.datamarket.TGoodsProductOperaLogDO" >
+    update t_goods_product_opera_log
+    set created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      log_id = #{logId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      operator_object = #{operatorObject,jdbcType=VARCHAR},
+      operator_type = #{operatorType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!-- 批量插入日志-->
+  <insert id="insertProductOperaLogBatch" parameterType="java.util.List">
+    INSERT INTO
+        t_goods_product_opera_log
+    (created_by, created_at, updated_by, updated_at, log_id, product_id, operator_object, operator_type)
+     VALUES
+    <foreach collection ="list" item="operaLog" index= "index" separator =",">
+        (
+          #{operaLog.createdBy},
+          #{operaLog.createdAt},
+          #{operaLog.updatedBy},
+          #{operaLog.updatedAt},
+          #{operaLog.logId},
+          #{operaLog.productId},
+          #{operaLog.operatorObject},
+          #{operaLog.operatorType}
+        )
+
+    </foreach >
+
+  </insert>
+
+  <select id="selectProductOperaList" parameterType="com.cobra.domain.datamarket.TGoodsProductOperaLogDO" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/> FROM t_goods_product_opera_log
+    <where>
+      1=1
+      <if test="id != null and id != ''" >
+        AND id=#{id,jdbcType=BIGINT}
+      </if>
+      <if test="createdBy != null and createdBy != ''" >
+        AND  created_by = #{createdBy,jdbcType=VARCHAR}
+      </if>
+      <if test="createdAt != null " >
+        AND created_at = #{createdAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updatedBy != null and updatedBy != ''" >
+        AND updated_by = #{updatedBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updatedAt != null " >
+        AND updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="logId != null and logId != ''" >
+        AND log_id = #{logId,jdbcType=VARCHAR}
+      </if>
+      <if test="productId != null and productId != ''" >
+        AND product_id = #{productId,jdbcType=VARCHAR}
+      </if>
+      <if test="operatorObject != null and operatorObject != ''" >
+        AND operator_object = #{operatorObject,jdbcType=VARCHAR}
+      </if>
+      <if test="operatorType != null and operatorType != ''" >
+        AND operator_type = #{operatorType,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <insert id="insertProductOperateLog" parameterType="com.cobra.domain.datamarket.TGoodsProductOperaLogDO" >
+    insert into t_goods_product_opera_log (created_by, created_at,
+    updated_by, updated_at, log_id,
+    product_id, operator_object, operator_type
+    )
+    values (#{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP},
+    #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{logId,jdbcType=VARCHAR},
+    #{productId,jdbcType=VARCHAR}, #{operatorObject,jdbcType=VARCHAR}, #{operatorType,jdbcType=VARCHAR}
+    )
+  </insert>
+</mapper>
