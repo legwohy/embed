@@ -1,4 +1,4 @@
-package com.cobra.domain.datamarket;
+package com.cobra.domain;
 
 import lombok.Data;
 

@@ -1,9 +1,9 @@
-package com.cobra.manager.credit.impl;
+package com.cobra.service.credit.impl;
 
 import com.cobra.common.Response;
 import com.cobra.dao.credit.CisInterfaceServiceNodeMapper;
 import com.cobra.domain.datamarket.QueryInterface;
-import com.cobra.manager.credit.CisInterfaceServiceNodeService;
+import com.cobra.service.credit.CisInterfaceServiceNodeService;
 import com.cobra.domain.datamarket.CisInterfaceServiceNodeDO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

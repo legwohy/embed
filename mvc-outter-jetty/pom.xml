@@ -122,6 +122,12 @@
             <version>4.13-beta-3</version>
         </dependency>
 
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
 
 
     </dependencies>
@@ -162,7 +168,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <outputDirectory>${basedir}/../target</outputDirectory>
+                    <outputDirectory>${basedir}/target</outputDirectory>
                     <goal>deploy</goal>
                 </configuration>
             </plugin>

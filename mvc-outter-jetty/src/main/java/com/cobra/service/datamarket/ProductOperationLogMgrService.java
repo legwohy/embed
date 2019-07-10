@@ -1,4 +1,4 @@
-package com.cobra.manager.datamarket;
+package com.cobra.service.datamarket;
 
 import com.cobra.common.Response;
 import com.cobra.domain.datamarket.QueryProductLog;

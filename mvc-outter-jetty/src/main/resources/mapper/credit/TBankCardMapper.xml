@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cobra.dao.credit.TBankCardMapper">
+  <resultMap id="BaseResultMap" type="com.cobra.domain.credit.TBankCard">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="card_name" jdbcType="VARCHAR" property="cardName" />
+    <result column="card_code" jdbcType="VARCHAR" property="cardCode" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, card_name, card_code, create_time
+  </sql>
+
+
+</mapper>

@@ -1,9 +1,8 @@
-package com.cobra.manager.datamarket.impl;
+package com.cobra.service.datamarket.impl;
 
 import com.cobra.common.Response;
-import com.cobra.domain.datamarket.CisInterfaceServiceNodeDO;
 import com.cobra.domain.datamarket.QueryProductLog;
-import com.cobra.manager.datamarket.ProductOperationLogMgrService;
+import com.cobra.service.datamarket.ProductOperationLogMgrService;
 import com.cobra.dao.datamarket.TGoodsProductOperaLogMapper;
 import com.cobra.domain.datamarket.TGoodsProductOperaLogDO;
 import com.github.pagehelper.PageHelper;

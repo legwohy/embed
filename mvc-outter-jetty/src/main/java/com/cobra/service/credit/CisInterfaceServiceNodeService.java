@@ -1,4 +1,4 @@
-package com.cobra.manager.credit;
+package com.cobra.service.credit;
 
 import com.cobra.common.Response;
 import com.cobra.domain.datamarket.CisInterfaceServiceNodeDO;

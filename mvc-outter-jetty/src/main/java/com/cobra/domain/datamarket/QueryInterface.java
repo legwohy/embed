@@ -1,5 +1,7 @@
 package com.cobra.domain.datamarket;
 
+import com.cobra.domain.PageDO;
+
 import java.io.Serializable;
 
 /**
