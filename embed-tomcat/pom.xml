@@ -24,7 +24,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.0.9.RELEASE</version>
+            <version>5.1.0.RELEASE</version>
         </dependency>
 
         <!-- 嵌入式容器的包 2.2 版本 启动jar包有问题-->
